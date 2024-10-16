@@ -52,8 +52,8 @@ export const SettingsForm = ({ className }: Props) => {
 	}
 
 	return (
-		<div className={cn('flex items-center h-screen bg-[#1F1F1F]', className)}>
-			<div className='flex-1 flex justify-end'>
+		<div className={cn('flex justify-center items-center h-screen bg-[#1F1F1F]', className)}>
+			<div>
 				<div className='flex flex-col gap-6 mr-20 items-center text-white'>
 					<LinkObs link={link} />
 
@@ -106,18 +106,16 @@ export const SettingsForm = ({ className }: Props) => {
 					</div>
 				</div>
 			</div>
-			<div className='flex-1'>
-				<div className='?'>
-					<AlertPreview
-						className='ml-20'
-						imageUrl={imageUrl}
-						firstTextBlock={firstTextBlock}
-						secondTextBlock={secondTextBlock}
-					/>
-					<Button className='w-[600px] ml-20 mt-8 p-6 text-base bg-[#4c5dce] hover:bg-[#4253b7]'>
-						Отправить тестовый донат
-					</Button>
-				</div>
+			<div>
+				<AlertPreview
+					className='2xl:ml-20 xl:ml-12'
+					imageUrl={imageUrl}
+					firstTextBlock={firstTextBlock}
+					secondTextBlock={secondTextBlock}
+				/>
+				<Button className='w-[600px] 2xl:ml-20 xl:ml-12 mt-8 p-6 text-base bg-[#4c5dce] hover:bg-[#4253b7]'>
+					Отправить тестовый донат
+				</Button>
 			</div>
 		</div>
 	)
