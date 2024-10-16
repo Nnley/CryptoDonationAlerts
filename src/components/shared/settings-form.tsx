@@ -15,6 +15,8 @@ interface Props {
 }
 
 export const SettingsForm = ({ className }: Props) => {
+	const inputRef = React.useRef<HTMLInputElement>(null)
+
 	const [imageUrl, setImageUrl] = React.useState<string>(
 		'https://i.gifer.com/origin/e0/e02ce86bcfd6d1d6c2f775afb3ec8c01_w200.gif'
 	)
@@ -38,6 +40,16 @@ export const SettingsForm = ({ className }: Props) => {
 		setLink(`http://localhost:3000/alerts?${query}`)
 	}, [imageUrl, firstTextBlock, secondTextBlock, duration, minAmount])
 
+	const setImageUrlHandler = (imageUrl: string) => {
+		if (imageUrl.endsWith('.gif') || imageUrl.endsWith('.png') || imageUrl.endsWith('.jpeg')) {
+			setImageUrl(imageUrl)
+		}
+	}
+
+	const handleFocus = () => {
+		inputRef.current?.select()
+	}
+
 	return (
 		<div className={cn('flex items-center h-screen bg-[#1F1F1F]', className)}>
 			<div className='flex-1 flex justify-end'>
@@ -49,11 +61,13 @@ export const SettingsForm = ({ className }: Props) => {
 							Ссылка на изображение <span className='text-sm text-[#6E6E6E]'>(допустимые форматы: gif, png, jpeg)</span>
 						</Label>
 						<Input
+							ref={inputRef}
 							className='max-w-full mt-1 '
 							id='imageUrl'
 							placeholder='Вставьте ссылку'
 							value={imageUrl}
-							onChange={e => setImageUrl(e.target.value)}
+							onFocus={handleFocus}
+							onChange={e => setImageUrlHandler(e.target.value)}
 						/>
 					</div>
 					<TextBlocksForm
