@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { Label } from '@radix-ui/react-label'
 import qs from 'qs'
 import React from 'react'
+import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Slider } from '../ui/slider'
 import { AlertPreview } from './alert-preview'
@@ -105,13 +106,18 @@ export const SettingsForm = ({ className }: Props) => {
 					</div>
 				</div>
 			</div>
-			<div className='flex-1 flex'>
-				<AlertPreview
-					className='ml-20'
-					imageUrl={imageUrl}
-					firstTextBlock={firstTextBlock}
-					secondTextBlock={secondTextBlock}
-				/>
+			<div className='flex-1'>
+				<div className='?'>
+					<AlertPreview
+						className='ml-20'
+						imageUrl={imageUrl}
+						firstTextBlock={firstTextBlock}
+						secondTextBlock={secondTextBlock}
+					/>
+					<Button className='w-[600px] ml-20 mt-8 p-6 text-base bg-[#4c5dce] hover:bg-[#4253b7]'>
+						Отправить тестовый донат
+					</Button>
+				</div>
 			</div>
 		</div>
 	)
