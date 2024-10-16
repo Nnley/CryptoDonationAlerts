@@ -41,7 +41,7 @@ loader.init().then(monaco => {
 	})
 
 	monaco.editor.defineTheme('myTheme', {
-		base: 'vs',
+		base: 'vs-dark',
 		inherit: true,
 		rules: [{ token: 'custom-bracket', foreground: '#858585' }],
 		colors: {
@@ -51,16 +51,6 @@ loader.init().then(monaco => {
 			'editorCursor.background': '#000000',
 			'editorCursorLight.foreground': '#CCCCCC',
 			'editorCursorDark.foreground': '#CCCCCC',
-			'editor.selectionBackground': '#4D4D4D',
-			'editor.selectionHighlightBackground': '#3A3D41',
-			'editor.inactiveSelectionBackground': '#3A3A3A',
-			'editorSuggestWidget.background': '#252526',
-			'editorSuggestWidget.border': '#454545',
-			'editorSuggestWidget.foreground': '#D4D4D4',
-			'editorSuggestWidget.highlightForeground': '#18A3FF',
-			'editorSuggestWidget.selectedBackground': '#094771',
-			'list.hoverBackground': '#2A2D2E',
-			'list.focusBackground': '#062F4A',
 		},
 	})
 
