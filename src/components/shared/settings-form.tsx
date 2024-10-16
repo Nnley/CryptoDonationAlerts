@@ -21,6 +21,7 @@ export const SettingsForm = ({ className }: Props) => {
 	const [imageUrl, setImageUrl] = React.useState<string>(
 		'https://i.gifer.com/origin/e0/e02ce86bcfd6d1d6c2f775afb3ec8c01_w200.gif'
 	)
+	const [wallet, setWallet] = React.useState<string>()
 	const [firstTextBlock, setFirstTextBlock] = React.useState<string>('New donate from {walletAddress}!')
 	const [secondTextBlock, setSecondTextBlock] = React.useState<string>('Donated {amount} {tokenName}')
 	const [duration, setDuration] = React.useState<number>(5000)
@@ -30,6 +31,7 @@ export const SettingsForm = ({ className }: Props) => {
 
 	React.useEffect(() => {
 		const params = {
+			wallet,
 			imageUrl,
 			firstTextBlock,
 			secondTextBlock,
@@ -58,6 +60,19 @@ export const SettingsForm = ({ className }: Props) => {
 					<LinkObs link={link} />
 
 					<div className='w-[500px] h-[76px]'>
+						<Label htmlFor='wallet' className='text-[#BEBEBE] ml-2'>
+							Адрес вашего кошелька <span className='text-sm text-[#6E6E6E]'>(только сеть TON)</span>
+						</Label>
+						<Input
+							className='max-w-full mt-1 '
+							id='wallet'
+							placeholder='Вставьте адрес вашего криптокошелька'
+							value={wallet}
+							onChange={e => setWallet(e.target.value)}
+						/>
+					</div>
+
+					<div className='w-[500px] h-[76px]'>
 						<Label htmlFor='imageUrl' className='text-[#BEBEBE] ml-2'>
 							Ссылка на изображение <span className='text-sm text-[#6E6E6E]'>(допустимые форматы: gif, png, jpeg)</span>
 						</Label>
@@ -71,12 +86,14 @@ export const SettingsForm = ({ className }: Props) => {
 							onChange={e => setImageUrlHandler(e.target.value)}
 						/>
 					</div>
+
 					<TextBlocksForm
 						firstTextBlock={firstTextBlock}
 						secondTextBlock={secondTextBlock}
 						setFirstTextBlock={setFirstTextBlock}
 						setSecondTextBlock={setSecondTextBlock}
 					/>
+
 					<div className='w-[500px] h-[76px]'>
 						<Label className='text-[#BEBEBE] ml-2 flex items-center'>Длительность доната</Label>
 						<Slider
@@ -90,6 +107,7 @@ export const SettingsForm = ({ className }: Props) => {
 							tooltipText='сек'
 						/>
 					</div>
+
 					<div className='w-[500px] h-[76px]'>
 						<Label htmlFor='imageUrl' className='text-[#BEBEBE] ml-2'>
 							Минимальная сумма
