@@ -42,7 +42,16 @@ export default function Alerts() {
 	const { events, isLoading } = useEvents(networksData.TON!.address)
 
 	React.useEffect(() => {
-		handleEventProcessing(events, isLoading, networksData, setNetworksData, setQueue)
+		if (isLoading || !events) {
+			return
+		}
+
+		handleEventProcessing(
+			events.filter(event => !event.in_progress),
+			networksData,
+			setNetworksData,
+			setQueue
+		)
 	}, [events, isLoading])
 
 	React.useEffect(() => {
