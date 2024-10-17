@@ -51,7 +51,7 @@ const handleEventProcessing = (
 						walletAddress: Address.parse(action.JettonTransfer!.sender.address).toString({
 							bounceable: false,
 						}),
-						tokenName: event.actions[0].simple_preview.value.split(' ')[1],
+						tokenName: event.actions[0].JettonTransfer!.jetton.symbol,
 						amount: event.actions[0].simple_preview.value.split(' ')[0] || '0',
 					}
 				}
@@ -95,7 +95,7 @@ const handleEventProcessing = (
 							walletAddress: Address.parse(action.JettonTransfer!.sender.address).toString({
 								bounceable: false,
 							}),
-							tokenName: event.actions[0].simple_preview.value.split(' ')[1],
+							tokenName: event.actions[0].JettonTransfer!.jetton.symbol,
 							amount: event.actions[0].simple_preview.value.split(' ')[0] || '0',
 						}
 					}

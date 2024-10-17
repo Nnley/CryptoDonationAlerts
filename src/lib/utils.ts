@@ -12,7 +12,7 @@ export function formatTextBlockString(template: string, values: IDonation): stri
 
 		if (typedKey === 'walletAddress' && values[typedKey] && values[typedKey]?.length > 10) {
 			const address = values[typedKey]
-			return `${address.slice(0, 3)}...${address.slice(-4)}`
+			return `${address.slice(0, 3)}...${address.slice(-6)}`
 		}
 		return values[typedKey] || ''
 	})
