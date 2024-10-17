@@ -28,7 +28,7 @@ const handleEventProcessing = (
 			...networksData,
 			TON: {
 				address: networksData.TON!.address,
-				lastTransactionId: events[0]?.event_id,
+				lastTransactionId: events.find(event => !event.in_progress)?.event_id || '',
 				isEmptyWallet: false,
 			},
 		})
@@ -62,7 +62,7 @@ const handleEventProcessing = (
 	if (networksData.TON?.lastTransactionId === '') {
 		return setNetworksData({
 			...networksData,
-			TON: { ...networksData.TON!, lastTransactionId: events[0]?.event_id },
+			TON: { ...networksData.TON!, lastTransactionId: events.find(event => !event.in_progress)?.event_id || '' },
 		})
 	}
 
@@ -74,7 +74,7 @@ const handleEventProcessing = (
 		if (lastTransactionIdIndex && lastTransactionIdIndex > 0) {
 			setNetworksData({
 				...networksData,
-				TON: { ...networksData.TON!, lastTransactionId: events[0]?.event_id },
+				TON: { ...networksData.TON!, lastTransactionId: events.find(event => !event.in_progress)?.event_id || '' },
 			})
 			return setQueue(prevDonates => [
 				...prevDonates,
@@ -104,7 +104,10 @@ const handleEventProcessing = (
 		} else {
 			return setNetworksData({
 				...networksData,
-				TON: { address: networksData.TON!.address, lastTransactionId: events[0]?.event_id },
+				TON: {
+					address: networksData.TON!.address,
+					lastTransactionId: events.find(event => !event.in_progress)?.event_id || '',
+				},
 			})
 		}
 	}
