@@ -1,6 +1,8 @@
 import { IDonation, INetworkData } from '@/constants/alert.types'
 import { Event } from '@/constants/event.types'
 
+import { Address } from '@ton/core'
+
 const handleEventProcessing = (
 	events: Event[],
 	isLoading: boolean,
@@ -38,16 +40,16 @@ const handleEventProcessing = (
 				if (action.TonTransfer) {
 					return {
 						transactionId: event.event_id,
-						walletAddress: action.TonTransfer?.sender.address,
-						tokenName: 'TON',
-						amount: action.TonTransfer?.amount?.toString() || '0',
+						walletAddress: Address.parse(action.TonTransfer!.sender.address).toString(),
+						tokenName: event.actions[0].simple_preview.value.split(' ')[1],
+						amount: event.actions[0].simple_preview.value.split(' ')[0] || '0',
 					}
 				} else {
 					return {
 						transactionId: event.event_id,
-						walletAddress: action.JettonTransfer?.sender.address,
-						tokenName: 'TON',
-						amount: action.JettonTransfer?.amount?.toString() || '0',
+						walletAddress: Address.parse(action.JettonTransfer!.sender.address).toString(),
+						tokenName: event.actions[0].simple_preview.value.split(' ')[1],
+						amount: event.actions[0].simple_preview.value.split(' ')[0] || '0',
 					}
 				}
 			}),
@@ -78,16 +80,16 @@ const handleEventProcessing = (
 					if (action.TonTransfer) {
 						return {
 							transactionId: event.event_id,
-							walletAddress: action.TonTransfer?.sender.address,
-							tokenName: 'TON',
-							amount: action.TonTransfer?.amount?.toString() || '0',
+							walletAddress: Address.parse(action.TonTransfer!.sender.address).toString(),
+							tokenName: event.actions[0].simple_preview.value.split(' ')[1],
+							amount: event.actions[0].simple_preview.value.split(' ')[0] || '0',
 						}
 					} else {
 						return {
 							transactionId: event.event_id,
-							walletAddress: action.JettonTransfer?.sender.address,
-							tokenName: 'TON',
-							amount: action.JettonTransfer?.amount?.toString() || '0',
+							walletAddress: Address.parse(action.JettonTransfer!.sender.address).toString(),
+							tokenName: event.actions[0].simple_preview.value.split(' ')[1],
+							amount: event.actions[0].simple_preview.value.split(' ')[0] || '0',
 						}
 					}
 				}),
