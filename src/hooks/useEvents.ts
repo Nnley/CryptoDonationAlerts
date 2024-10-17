@@ -5,7 +5,7 @@ import { useRef } from 'react'
 
 const getEvents = async (address: string) => {
 	try {
-		const response = await axios.get(`https://tonapi.io/v2/accounts/${address}/events?limit=20`)
+		const response = await axios.get(`https://test.io/v2/accounts/${address}/events?limit=20`)
 		return response.data
 	} catch (error) {
 		console.error(error)
@@ -19,8 +19,8 @@ export const useEvents = (address: string): EventsResponse & { isLoading: boolea
 	const { data, isLoading } = useQuery({
 		queryKey: ['events', address],
 		queryFn: () => getEvents(address),
-		staleTime: 5000,
-		refetchInterval: 5000,
+		// staleTime: 5000,
+		// refetchInterval: 5000,
 		select: data => {
 			if (JSON.stringify(data.events) === JSON.stringify(previousEventsRef.current)) {
 				return previousEventsRef.current

@@ -1,19 +1,12 @@
 import { IAlertSettings, IDonation } from '@/constants/alert.types'
 import { cn, formatTextBlockString } from '@/lib/utils'
-import { useState } from 'react'
 
 interface Props extends Omit<IAlertSettings, 'duration' | 'minAmount'> {
 	className?: string
+	donationTemplate: IDonation
 }
 
-export const AlertPreview = ({ imageUrl, firstTextBlock, secondTextBlock, className }: Props) => {
-	const [donationTemplate] = useState<IDonation>({
-		transactionId: '0',
-		walletAddress: 'UQDD8dqOzaj4zUK6ziJOo_G2lx6qf1TEktTRkFJ7T1c_fKne',
-		amount: '5000',
-		tokenName: 'HMSTR',
-	})
-
+export const AlertPreview = ({ imageUrl, firstTextBlock, secondTextBlock, donationTemplate, className }: Props) => {
 	return (
 		<div
 			className={cn(

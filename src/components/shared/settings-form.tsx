@@ -1,10 +1,10 @@
 'use client'
 
+import { IDonation } from '@/constants/alert.types'
 import { cn } from '@/lib/utils'
 import { Label } from '@radix-ui/react-label'
 import qs from 'qs'
 import React from 'react'
-import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Slider } from '../ui/slider'
 import { AlertPreview } from './alert-preview'
@@ -29,6 +29,13 @@ export const SettingsForm = ({ className }: Props) => {
 
 	const [link, setLink] = React.useState<string>('http://localhost:3000/alerts')
 
+	const [donationTemplate] = React.useState<IDonation>({
+		transactionId: '0',
+		walletAddress: 'UQDD8dqOzaj4zUK6ziJOo_G2lx6qf1TEktTRkFJ7T1c_fKne',
+		amount: '5000',
+		tokenName: 'HMSTR',
+	})
+
 	React.useEffect(() => {
 		const params = {
 			wallet,
@@ -41,7 +48,7 @@ export const SettingsForm = ({ className }: Props) => {
 
 		const query = qs.stringify(params, { arrayFormat: 'comma' })
 		setLink(`http://localhost:3000/alerts?${query}`)
-	}, [imageUrl, firstTextBlock, secondTextBlock, duration, minAmount])
+	}, [wallet, imageUrl, firstTextBlock, secondTextBlock, duration, minAmount])
 
 	const setImageUrlHandler = (imageUrl: string) => {
 		if (imageUrl.endsWith('.gif') || imageUrl.endsWith('.png') || imageUrl.endsWith('.jpeg')) {
@@ -130,10 +137,14 @@ export const SettingsForm = ({ className }: Props) => {
 					imageUrl={imageUrl}
 					firstTextBlock={firstTextBlock}
 					secondTextBlock={secondTextBlock}
+					donationTemplate={donationTemplate}
 				/>
-				<Button className='w-[600px] 2xl:ml-20 xl:ml-12 mt-8 p-6 text-base bg-[#4c5dce] hover:bg-[#4253b7]'>
+				{/* <Button
+					className='w-[600px] 2xl:ml-20 xl:ml-12 mt-8 p-6 text-base bg-[#4c5dce] hover:bg-[#4253b7]'
+					onClick={() => handleSendTestDonation()}
+				>
 					Отправить тестовый донат
-				</Button>
+				</Button> */}
 			</div>
 		</div>
 	)
