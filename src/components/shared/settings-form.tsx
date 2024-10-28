@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { Label } from '@radix-ui/react-label'
 import qs from 'qs'
 import React from 'react'
+import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Slider } from '../ui/slider'
 import { AlertPreview } from './alert-preview'
@@ -35,6 +36,30 @@ export const SettingsForm = ({ className }: Props) => {
 		amount: '5000',
 		tokenName: 'HMSTR',
 	})
+
+	const [selectedAudioFile, setSelectedAudioFile] = React.useState<File | null>(null)
+	const [audioSrc, setAudioSrc] = React.useState<string>('')
+	const audioRef = React.useRef<HTMLAudioElement>(null)
+
+	const handleFileChange = (file: File | null) => {
+		setSelectedAudioFile(file)
+
+		if (file) {
+			const reader = new FileReader()
+			reader.onload = () => {
+				setAudioSrc(reader.result as string)
+			}
+			reader.readAsDataURL(file)
+		}
+	}
+
+	const controls = {
+		play: () => {
+			if (audioRef.current) {
+				audioRef.current.play()
+			}
+		},
+	}
 
 	React.useEffect(() => {
 		const params = {
@@ -71,7 +96,7 @@ export const SettingsForm = ({ className }: Props) => {
 							Адрес вашего кошелька <span className='text-sm text-[#6E6E6E]'>(только сеть TON)</span>
 						</Label>
 						<Input
-							className='max-w-full mt-1 '
+							className='max-w-full mt-1'
 							id='wallet'
 							placeholder='Вставьте адрес вашего криптокошелька'
 							value={wallet}
@@ -85,7 +110,7 @@ export const SettingsForm = ({ className }: Props) => {
 						</Label>
 						<Input
 							ref={inputRef}
-							className='max-w-full mt-1 '
+							className='max-w-full mt-1'
 							id='imageUrl'
 							placeholder='Вставьте ссылку'
 							value={imageUrl}
@@ -139,12 +164,21 @@ export const SettingsForm = ({ className }: Props) => {
 					secondTextBlock={secondTextBlock}
 					donationTemplate={donationTemplate}
 				/>
-				{/* <Button
-					className='w-[600px] 2xl:ml-20 xl:ml-12 mt-8 p-6 text-base bg-[#4c5dce] hover:bg-[#4253b7]'
-					onClick={() => handleSendTestDonation()}
+				<Input
+					id='audio'
+					type='file'
+					className='w-[600px] 2xl:ml-20 xl:ml-12 mt-5 py-3 text-base'
+					accept='audio/*'
+					onFileChange={handleFileChange}
+				/>
+				<Button
+					className='w-[600px] 2xl:ml-20 xl:ml-12 mt-4 py-6 text-base rounded-lg bg-[#4c5dce] hover:bg-[#4253b7]'
+					onClick={controls.play}
+					disabled={!selectedAudioFile}
 				>
-					Отправить тестовый донат
-				</Button> */}
+					Воспроизвести звук
+				</Button>
+				<audio ref={audioRef} controls src={audioSrc} className='hidden' />
 			</div>
 		</div>
 	)
