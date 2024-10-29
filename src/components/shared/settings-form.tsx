@@ -1,5 +1,6 @@
 'use client'
 
+import { writeAudioFiles } from '@/app/actions'
 import { IDonation } from '@/constants/alert.types'
 import { cn } from '@/lib/utils'
 import { Label } from '@radix-ui/react-label'
@@ -16,13 +17,23 @@ interface Props {
 	className?: string
 }
 
+export interface Params {
+	wallet: string | undefined
+	imageUrl: string
+	firstTextBlock: string
+	secondTextBlock: string
+	duration: number
+	minAmount: number
+	audio?: string
+}
+
 export const SettingsForm = ({ className }: Props) => {
 	const inputRef = React.useRef<HTMLInputElement>(null)
 
 	const [imageUrl, setImageUrl] = React.useState<string>(
 		'https://i.gifer.com/origin/e0/e02ce86bcfd6d1d6c2f775afb3ec8c01_w200.gif'
 	)
-	const [wallet, setWallet] = React.useState<string>()
+	const [wallet, setWallet] = React.useState<string>('')
 	const [firstTextBlock, setFirstTextBlock] = React.useState<string>('New donate from {walletAddress}!')
 	const [secondTextBlock, setSecondTextBlock] = React.useState<string>('Donated {amount} {tokenName}')
 	const [duration, setDuration] = React.useState<number>(5000)
@@ -39,17 +50,20 @@ export const SettingsForm = ({ className }: Props) => {
 
 	const [selectedAudioFile, setSelectedAudioFile] = React.useState<File | null>(null)
 	const [audioSrc, setAudioSrc] = React.useState<string>('')
+	const [audioName, setAudioName] = React.useState<string>('')
 	const audioRef = React.useRef<HTMLAudioElement>(null)
 
-	const handleFileChange = (file: File | null) => {
+	const handleFileChange = async (file: File | null) => {
 		setSelectedAudioFile(file)
 
 		if (file) {
-			const reader = new FileReader()
-			reader.onload = () => {
-				setAudioSrc(reader.result as string)
-			}
-			reader.readAsDataURL(file)
+			const formData = new FormData()
+			formData.append('audioFile', file)
+
+			const audioData = await writeAudioFiles(formData)
+
+			setAudioName(audioData?.audio || '')
+			setAudioSrc(URL.createObjectURL(file))
 		}
 	}
 
@@ -62,7 +76,7 @@ export const SettingsForm = ({ className }: Props) => {
 	}
 
 	React.useEffect(() => {
-		const params = {
+		const params: Params = {
 			wallet,
 			imageUrl,
 			firstTextBlock,
@@ -71,9 +85,13 @@ export const SettingsForm = ({ className }: Props) => {
 			minAmount,
 		}
 
+		if (audioSrc) {
+			params.audio = audioName
+		}
+
 		const query = qs.stringify(params, { arrayFormat: 'comma' })
 		setLink(`http://localhost:3000/alerts?${query}`)
-	}, [wallet, imageUrl, firstTextBlock, secondTextBlock, duration, minAmount])
+	}, [wallet, imageUrl, firstTextBlock, secondTextBlock, duration, minAmount, audioSrc])
 
 	const setImageUrlHandler = (imageUrl: string) => {
 		if (imageUrl.endsWith('.gif') || imageUrl.endsWith('.png') || imageUrl.endsWith('.jpeg')) {

@@ -26,17 +26,18 @@ export default function Alerts() {
 		},
 	})
 
-	const [imageUrl, setImageUrl] = React.useState<string>(
+	const [imageUrl] = React.useState<string>(
 		searchParams.get('imageUrl') || 'https://i.gifer.com/origin/e0/e02ce86bcfd6d1d6c2f775afb3ec8c01_w200.gif'
 	)
-	const [firstTextBlock, setFirstTextBlock] = React.useState<string>(
+	const [firstTextBlock] = React.useState<string>(
 		searchParams.get('firstTextBlock') || 'New donate from {walletAddress}!'
 	)
-	const [secondTextBlock, setSecondTextBlock] = React.useState<string>(
+	const [secondTextBlock] = React.useState<string>(
 		searchParams.get('secondTextBlock') || 'Donated {amount} {networkType}'
 	)
-	const [alertDuration, setAlertDuration] = React.useState<number>(Number(searchParams.get('duration')) || 5000)
-	const [minAmount, setMinAmount] = React.useState<number>(Number(searchParams.get('minAmount')) || 1)
+	const [alertDuration] = React.useState<number>(Number(searchParams.get('duration')) || 5000)
+	const [minAmount] = React.useState<number>(Number(searchParams.get('minAmount')) || 1)
+	const [audioName] = React.useState<string>(searchParams.get('audio') || '')
 
 	const [queue, setQueue] = React.useState<IDonation[]>([])
 	const { events, isLoading } = useEvents(networksData.TON!.address)
@@ -72,6 +73,7 @@ export default function Alerts() {
 					firstTextBlock={formatTextBlockString(firstTextBlock, queue[0])}
 					secondTextBlock={formatTextBlockString(secondTextBlock, queue[0])}
 					imageUrl={imageUrl}
+					audioName={audioName}
 					duration={alertDuration}
 				/>
 			)}
